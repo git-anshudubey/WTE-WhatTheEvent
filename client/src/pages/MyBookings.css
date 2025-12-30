@@ -90,9 +90,29 @@
     flex-direction: column;
     justify-content: flex-end;
     padding: 1.5rem;
+    text-align: center;
 }
 
-/* ... existing code ... */
+.booking-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
+    z-index: 1;
+}
+
+.booking-thumb {
+    display: none;
+}
+
+.booking-info-text {
+    position: relative;
+    z-index: 2;
+    color: white;
+}
 
 /* Data Grid */
 .booking-grid-data {
