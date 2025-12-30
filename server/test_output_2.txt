@@ -1,0 +1,44 @@
+
+> server@1.0.0 test
+> cross-env NODE_ENV=test STRIPE_SECRET_KEY=sk_test_mock DB_URI=mongodb://localhost:27017/event-booking-test jest
+
+  console.log
+    [dotenv@17.2.3] injecting env (2) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+
+      at _log (node_modules/dotenv/lib/main.js:142:11)
+
+  console.log
+    MongoDB connected
+
+      at log (server.js:29:25)
+
+(node:20896) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+FAIL tests/auth.test.js
+  Auth API
+    √ should register a new user (332 ms)
+    √ should login the user (159 ms)
+    × should block invalid login (176 ms)
+
+  ● Auth API › should block invalid login
+
+    expect(received).toEqual(expected) // deep equality
+
+    Expected: 401
+    Received: 400
+
+    [0m [90m 52 |[39m             })[33m;[39m
+     [90m 53 |[39m
+    [31m[1m>[22m[39m[90m 54 |[39m         expect(res[33m.[39mstatusCode)[33m.[39mtoEqual([35m401[39m)[33m;[39m
+     [90m    |[39m                                [31m[1m^[22m[39m
+     [90m 55 |[39m     })[33m;[39m
+     [90m 56 |[39m })[33m;[39m
+     [90m 57 |[39m[0m
+
+      at Object.toEqual (tests/auth.test.js:54:32)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 2 passed, 3 total
+Snapshots:   0 total
+Time:        3.666 s, estimated 5 s
+Ran all test suites.

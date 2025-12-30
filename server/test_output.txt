@@ -1,0 +1,36 @@
+
+> server@1.0.0 test
+> cross-env NODE_ENV=test jest
+
+  console.log
+    [dotenv@17.2.3] injecting env (3) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+
+      at _log (node_modules/dotenv/lib/main.js:142:11)
+
+FAIL tests/auth.test.js
+  ● Test suite failed to run
+
+    Neither apiKey nor config.authenticator provided
+
+    [0m [90m 2 |[39m [36mconst[39m [33mBooking[39m [33m=[39m require([32m'../models/Booking'[39m)[33m;[39m
+     [90m 3 |[39m [36mconst[39m [33mEvent[39m [33m=[39m require([32m'../models/Event'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 4 |[39m [36mconst[39m stripe [33m=[39m [33mStripe[39m(process[33m.[39menv[33m.[39m[33mSTRIPE_SECRET_KEY[39m)[33m;[39m
+     [90m   |[39m                [31m[1m^[22m[39m
+     [90m 5 |[39m
+     [90m 6 |[39m [90m// @desc    Create Stripe Checkout Session[39m
+     [90m 7 |[39m [90m// @route   POST /api/payment/create-checkout-session[39m[0m
+
+      at Stripe._setAuthenticator (node_modules/stripe/cjs/stripe.core.js:158:23)
+      at new Stripe (node_modules/stripe/cjs/stripe.core.js:96:14)
+      at Stripe (node_modules/stripe/cjs/stripe.core.js:52:20)
+      at Object.Stripe (controllers/paymentController.js:4:16)
+      at Object.require (server.js:21:21)
+      at Object.require (tests/auth.test.js:3:13)
+
+Test Suites: 1 failed, 1 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        2.289 s
+Ran all test suites.
+(node:23824) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
