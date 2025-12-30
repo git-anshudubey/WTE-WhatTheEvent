@@ -17,11 +17,20 @@ const createCheckoutSession = async (req, res) => {
     const { bookingId } = req.body;
 
     try {
+        console.log(`[Payment] Creating checkout session for booking: ${bookingId}`);
+
+        if (!process.env.CLIENT_URL) {
+            throw new Error('CLIENT_URL missing in server .env');
+        }
+
         const stripe = getStripe();
         const booking = await Booking.findById(bookingId).populate('event');
         if (!booking) {
+            console.error(`[Payment] Booking not found: ${bookingId}`);
             return res.status(404).json({ message: 'Booking not found' });
         }
+
+        console.log(`[Payment] Booking found. Event: ${booking.event.title}, Price: ${booking.event.price}`);
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -34,7 +43,7 @@ const createCheckoutSession = async (req, res) => {
                             description: booking.event.description,
                             images: booking.event.image ? [`http://localhost:5000/${booking.event.image}`] : [],
                         },
-                        unit_amount: booking.event.price * 100, // Amount in cents
+                        unit_amount: Math.round(booking.event.price * 100), // Ensure integer (cents)
                     },
                     quantity: booking.ticketCount,
                 },
@@ -47,14 +56,16 @@ const createCheckoutSession = async (req, res) => {
             },
         });
 
+        console.log(`[Payment] Session created: ${session.id}`);
+
         // Save session ID to booking
         booking.stripeSessionId = session.id;
         await booking.save();
 
         res.json({ id: session.id, url: session.url });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: error.message });
+        console.error('[Payment] Create Checkout Error:', error);
+        res.status(500).json({ message: error.message, details: error.toString() });
     }
 };
 

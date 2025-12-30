@@ -41,6 +41,7 @@ const CreateEvent = () => {
         setError('');
 
         const data = new FormData();
+        console.log('[CreateEvent] API URL:', import.meta.env.VITE_API_URL); // Debug Log
         data.append('title', title);
         data.append('description', description);
         data.append('date', date);
@@ -54,7 +55,10 @@ const CreateEvent = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.post(`${import.meta.env.VITE_API_URL}/events`, data, {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+            console.log('[CreateEvent] Using API URL:', apiUrl);
+
+            await axios.post(`${apiUrl}/events`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',

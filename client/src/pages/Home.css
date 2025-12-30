@@ -16,16 +16,13 @@
 .hero-title {
     font-size: 3rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #2563eb;
     margin-bottom: 1rem;
 }
 
 .hero-subtitle {
     font-size: 1.25rem;
-    color: #718096;
+    color: #475569;
     margin-bottom: 2rem;
 }
 
@@ -54,25 +51,29 @@
 }
 
 .btn-hero-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #2563eb;
+    /* Royal Blue */
     color: white;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
 }
 
 .btn-hero-primary:hover {
+    background: #1d4ed8;
+    /* Darker Blue on hover */
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
 }
 
 .btn-hero-secondary {
     background: white;
-    color: #667eea;
-    border: 2px solid #667eea;
+    color: #2563eb;
+    border: 2px solid #2563eb;
 }
 
 .btn-hero-secondary:hover {
-    background: #667eea;
-    color: white;
+    background: #eff6ff;
+    color: #2563eb;
+    border-color: #1d4ed8;
 }
 
 .features-grid {
@@ -100,12 +101,13 @@
     width: 80px;
     height: 80px;
     margin: 0 auto 1.5rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #2563eb;
+    /* Royal Blue */
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
 }
 
 .feature-icon {

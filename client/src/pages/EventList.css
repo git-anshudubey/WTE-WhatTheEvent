@@ -7,10 +7,11 @@
 .page-header {
     margin-bottom: 2rem;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1.5rem;
+    text-align: center;
 }
 
 .page-header h1 {
@@ -175,6 +176,7 @@
     font-weight: 600;
     border: 1px solid #bfdbfe;
     display: inline-block;
+    align-self: center;
 }
 
 /* Row 2: Price & Tickets */
@@ -220,6 +222,9 @@
 .event-actions {
     padding: 1rem;
     background: #fafbfc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .view-btn {
@@ -227,25 +232,28 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.75rem;
-    width: 100%;
+    height: 44px;
+    padding: 0 2rem;
+    width: auto;
+    min-width: 180px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.2s;
     text-decoration: none;
     font-weight: 600;
     font-size: 0.9rem;
-    background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
-    color: #006064;
-    border: 1px solid #80deea;
+    background: #2563eb;
+    /* Blue-600 */
+    color: white;
 }
 
 .view-btn:hover {
-    background: linear-gradient(135deg, #00acc1 0%, #0097a7 100%);
+    background: #1d4ed8;
+    /* Blue-700 */
     color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 150, 167, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 /* Pagination */
@@ -295,8 +303,7 @@
     }
 
     .page-header {
-        flex-direction: column;
-        align-items: flex-start;
+        /* Keep centered from global styles */
     }
 
     .category-select {

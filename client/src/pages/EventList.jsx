@@ -20,7 +20,7 @@ const EventList = () => {
                     url += `&category=${category}`;
                 }
                 const { data } = await axios.get(url);
-                setEvents(data.events);
+                setEvents(data.events || []);
                 setTotalPages(data.pages);
                 setLoading(false);
             } catch (error) {
@@ -59,73 +59,81 @@ const EventList = () => {
                 <div className="loading-container"><p>Loading events...</p></div>
             ) : (
                 <>
-                    <div className="events-grid">
-                        {events.map((event) => (
-                            <div key={event._id} className="event-card">
-                                <div
-                                    className="event-card-header"
-                                    style={event.image ? {
-                                        backgroundImage: `url(http://localhost:5000/${event.image})`
-                                    } : {}}
-                                >
-                                    {event.image && (
-                                        <img
-                                            src={`http://localhost:5000/${event.image}`}
-                                            alt={event.title}
-                                            className="event-thumb"
-                                        />
-                                    )}
-                                    <div className="event-header-content">
-                                        <div className="event-title">{event.title}</div>
-                                        <div className="event-description">
-                                            {event.description?.substring(0, 80)}...
+                    {events && events.length > 0 ? (
+                        <div className="events-grid">
+                            {events.map((event) => (
+                                <div key={event._id} className="event-card">
+                                    <div
+                                        className="event-card-header"
+                                        style={event.image ? {
+                                            backgroundImage: `url(http://localhost:5000/${event.image})`
+                                        } : {}}
+                                    >
+                                        {event.image && (
+                                            <img
+                                                src={`http://localhost:5000/${event.image}`}
+                                                alt={event.title}
+                                                className="event-thumb"
+                                            />
+                                        )}
+                                        <div className="event-header-content">
+                                            <div className="event-title">{event.title}</div>
+                                            <div className="event-description">
+                                                {event.description?.substring(0, 80)}...
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div className="event-card-body">
-                                    <div className="event-data-cell">
-                                        <span className="data-label">Date</span>
-                                        <div className="data-value">
-                                            <FaCalendarAlt />
-                                            {new Date(event.date).toLocaleDateString()}
+                                    <div className="event-card-body">
+                                        <div className="event-data-cell">
+                                            <span className="data-label">Date</span>
+                                            <div className="data-value">
+                                                <FaCalendarAlt />
+                                                {new Date(event.date).toLocaleDateString()}
+                                            </div>
+                                        </div>
+                                        <div className="event-data-cell">
+                                            <span className="data-label">Location</span>
+                                            <div className="data-value">
+                                                <FaMapMarkerAlt />
+                                                {event.location}
+                                            </div>
+                                        </div>
+                                        <div className="event-data-cell">
+                                            <span className="data-label">Category</span>
+                                            <span className="category-badge">{event.category}</span>
                                         </div>
                                     </div>
-                                    <div className="event-data-cell">
-                                        <span className="data-label">Location</span>
-                                        <div className="data-value">
-                                            <FaMapMarkerAlt />
-                                            {event.location}
-                                        </div>
-                                    </div>
-                                    <div className="event-data-cell">
-                                        <span className="data-label">Category</span>
-                                        <span className="category-badge">{event.category}</span>
-                                    </div>
-                                </div>
 
-                                <div className="event-card-footer-data">
-                                    <div className="price-cell">
-                                        <span className="price-label">Price</span>
-                                        <span className="price-value">${event.price}</span>
-                                    </div>
-                                    <div className="tickets-cell">
-                                        <span className="data-label">Tickets</span>
-                                        <div className="data-value">
-                                            <FaTicketAlt />
-                                            {event.availableTickets} Left
+                                    <div className="event-card-footer-data">
+                                        <div className="price-cell">
+                                            <span className="price-label">Price</span>
+                                            <span className="price-value">${event.price}</span>
+                                        </div>
+                                        <div className="tickets-cell">
+                                            <span className="data-label">Tickets</span>
+                                            <div className="data-value">
+                                                <FaTicketAlt />
+                                                {event.availableTickets} Left
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div className="event-actions">
-                                    <Link to={`/events/${event._id}`} className="view-btn">
-                                        <FaEye /> View
-                                    </Link>
+                                    <div className="event-actions">
+                                        <Link to={`/events/${event._id}`} className="view-btn">
+                                            <FaEye /> View
+                                        </Link>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="no-events" style={{ textAlign: 'center', padding: '4rem', background: 'white', borderRadius: '16px', marginTop: '2rem' }}>
+                            <FaCalendarAlt style={{ fontSize: '3rem', color: '#cbd5e0', marginBottom: '1rem' }} />
+                            <h3 style={{ fontSize: '1.5rem', color: '#2d3748', marginBottom: '0.5rem' }}>No events found</h3>
+                            <p style={{ color: '#718096' }}>Try adjusting your search or category filters</p>
+                        </div>
+                    )}
 
                     {totalPages > 1 && (
                         <div className="pagination">

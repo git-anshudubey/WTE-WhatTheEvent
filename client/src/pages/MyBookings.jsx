@@ -20,7 +20,9 @@ const MyBookings = () => {
                         headers: { Authorization: `Bearer ${token}` },
                     }
                 );
-                setBookings(data);
+                // Ensure data is an array, or check for nested property if API changed
+                const bookingsData = Array.isArray(data) ? data : (data.bookings || []);
+                setBookings(bookingsData);
                 setLoading(false);
             } catch (error) {
                 console.error(error);
@@ -39,7 +41,7 @@ const MyBookings = () => {
                 <p className="page-subtitle">View and manage your event tickets</p>
             </div>
 
-            {bookings.length === 0 ? (
+            {!bookings || bookings.length === 0 ? (
                 <div className="empty-state">
                     <FaTicketAlt className="empty-icon" />
                     <h3>No Bookings Yet</h3>

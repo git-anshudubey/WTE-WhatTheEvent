@@ -58,7 +58,10 @@ const getEventById = async (req, res) => {
 // @access  Private (Admin/Organizer)
 const createEvent = async (req, res) => {
     try {
-        const { title, description, date, location, category, price } = req.body;
+        console.log('[CreateEvent] Request Body:', req.body);
+        console.log('[CreateEvent] Request File:', req.file);
+
+        const { title, description, date, location, category, price, capacity } = req.body;
 
         let image = '';
         if (req.file) {
@@ -72,12 +75,16 @@ const createEvent = async (req, res) => {
             location,
             category,
             price,
+            capacity: capacity || 100,
+            availableTickets: capacity || 100, // Initialize available tickets matches capacity
             image,
             organizer: req.user.id,
         });
 
+        console.log('[CreateEvent] Event Created:', event._id);
         res.status(201).json(event);
     } catch (error) {
+        console.error('[CreateEvent] Error:', error);
         res.status(400).json({ message: error.message });
     }
 };
@@ -108,6 +115,16 @@ const updateEvent = async (req, res) => {
             updatedData.image = req.file.path.replace(/\\/g, '/');
         }
 
+        // If capacity changes, adjust available tickets logic could be complex
+        // For simplicity, we might reset or adjust difference.
+        // A safer simple approach:
+        if (req.body.capacity) {
+            const capacityDiff = req.body.capacity - event.capacity;
+            updatedData.availableTickets = event.availableTickets + capacityDiff;
+            // Prevent negative tickets
+            if (updatedData.availableTickets < 0) updatedData.availableTickets = 0;
+        }
+
         const updatedEvent = await Event.findByIdAndUpdate(req.params.id, updatedData, {
             new: true,
             runValidators: true,
@@ -115,6 +132,7 @@ const updateEvent = async (req, res) => {
 
         res.status(200).json(updatedEvent);
     } catch (error) {
+        console.error('[UpdateEvent] Error:', error);
         res.status(400).json({ message: error.message });
     }
 };

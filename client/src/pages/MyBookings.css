@@ -6,6 +6,7 @@
 
 .page-header {
     margin-bottom: 2rem;
+    text-align: center;
 }
 
 .page-header h1 {
@@ -204,8 +205,11 @@
 .booking-btn {
     display: flex;
     align-items: center;
+    justify-content: center;
+    /* Ensure contents are centered */
     gap: 0.5rem;
-    padding: 0.6rem 1.2rem;
+    height: 44px;
+    padding: 0 1.5rem;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -216,16 +220,17 @@
 }
 
 .view-btn {
-    background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
-    color: #006064;
-    border: 1px solid #80deea;
+    background: #2563eb;
+    /* Blue-600 */
+    color: white;
+    border: none;
 }
 
 .view-btn:hover {
-    background: linear-gradient(135deg, #00acc1 0%, #0097a7 100%);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 150, 167, 0.3);
+    background: #1d4ed8;
+    /* Blue-700 */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .booking-id {
