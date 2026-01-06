@@ -12,6 +12,8 @@ import EditEvent from './pages/admin/EditEvent';
 import Checkout from './pages/Checkout';
 import MyBookings from './pages/MyBookings';
 import BookingSuccess from './pages/BookingSuccess';
+import HostSuccess from './pages/HostSuccess';
+import Wishlist from './pages/Wishlist';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import UserList from './pages/admin/UserList';
@@ -41,6 +43,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/checkout/:id" element={<Checkout />} />
             <Route path="/my-bookings" element={<MyBookings />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/host-success" element={<HostSuccess />} />
             <Route path="/booking-success" element={<BookingSuccess />} />
           </Route>
         </Routes>
