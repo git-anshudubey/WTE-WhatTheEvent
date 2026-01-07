@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
-import { FaTicketAlt, FaCalendarAlt, FaUserCircle, FaSignOutAlt, FaChartLine, FaCog, FaHome, FaBars, FaTimes } from 'react-icons/fa';
+import { FaTicketAlt, FaCalendarAlt, FaUserCircle, FaSignOutAlt, FaChartLine, FaCog, FaHome, FaBars, FaTimes, FaPlus } from 'react-icons/fa';
 import { MdEventAvailable } from 'react-icons/md';
 import './Navbar.css';
 
@@ -52,18 +52,23 @@ const Navbar = () => {
                                 <MdEventAvailable className="nav-icon" />
                                 <span>My Bookings</span>
                             </Link>
+                            <Link to="/create-event" className="navbar-link" onClick={closeMobileMenu}>
+                                <FaPlus className="nav-icon" />
+                                <span>Host Event</span>
+                            </Link>
+
                             {user.role === 'admin' && (
-                                <>
-                                    <Link to="/admin/dashboard" className="navbar-link" onClick={closeMobileMenu}>
-                                        <FaChartLine className="nav-icon" />
-                                        <span>Dashboard</span>
-                                    </Link>
-                                    <Link to="/manage-events" className="navbar-link" onClick={closeMobileMenu}>
-                                        <FaCog className="nav-icon" />
-                                        <span>Manage</span>
-                                    </Link>
-                                </>
+                                <Link to="/admin/dashboard" className="navbar-link" onClick={closeMobileMenu}>
+                                    <FaChartLine className="nav-icon" />
+                                    <span>Dashboard</span>
+                                </Link>
                             )}
+
+                            <Link to="/manage-events" className="navbar-link" onClick={closeMobileMenu}>
+                                <FaCog className="nav-icon" />
+                                <span>Manage Events</span>
+                            </Link>
+
                             <div className="navbar-user">
                                 <span className="user-name">
                                     <FaUserCircle className="user-icon" />
