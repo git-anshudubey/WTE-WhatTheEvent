@@ -1,32 +1,53 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { FaCalendarAlt, FaMapMarkerAlt, FaTicketAlt, FaTag, FaRupeeSign, FaUsers, FaClock } from 'react-icons/fa';
+import { FaCalendarAlt, FaMapMarkerAlt, FaTicketAlt, FaTag, FaRupeeSign, FaUsers, FaStar } from 'react-icons/fa';
+import AuthContext from '../context/AuthContext';
+import ReviewForm from '../components/ReviewForm';
+import ReviewList from '../components/ReviewList';
 import './EventDetails.css';
 
 const EventDetails = () => {
     const [event, setEvent] = useState(null);
+    const [reviews, setReviews] = useState([]);
     const [quantity, setQuantity] = useState(1);
     const [loading, setLoading] = useState(true);
     const { id } = useParams();
     const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
+
+    const fetchEvent = async () => {
+        try {
+            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/events/${id}`);
+            setEvent(data);
+            setLoading(false);
+        } catch (error) {
+            console.error(error);
+            setLoading(false);
+        }
+    };
+
+    const fetchReviews = async () => {
+        try {
+            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/events/${id}/reviews`);
+            setReviews(data);
+        } catch (error) {
+            console.error('Error fetching reviews:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchEvent = async () => {
-            try {
-                const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/events/${id}`);
-                setEvent(data);
-                setLoading(false);
-            } catch (error) {
-                console.error(error);
-                setLoading(false);
-            }
-        };
         fetchEvent();
+        fetchReviews();
     }, [id]);
 
     const handleBooking = () => {
         navigate(`/checkout/${id}`, { state: { quantity } });
+    };
+
+    const onReviewAdded = () => {
+        fetchEvent(); // Refresh event for updated rating
+        fetchReviews(); // Refresh reviews list
     };
 
     if (loading) return <div className="loading-container"><p>Loading event details...</p></div>;
@@ -48,6 +69,12 @@ const EventDetails = () => {
                             <FaTag /> {event.category}
                         </span>
                         <h1>{event.title}</h1>
+                        <div className="rating-badge">
+                            <FaStar color="#ffc107" />
+                            <span>
+                                {event.averageRating ? event.averageRating.toFixed(1) : 'No Ratings'} ({event.numReviews} reviews)
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -89,6 +116,18 @@ const EventDetails = () => {
                     <div className="description-section">
                         <h3>About This Event</h3>
                         <p>{event.description}</p>
+                    </div>
+
+                    <div className="reviews-section">
+                        <h2>Reviews & Ratings</h2>
+                        {user ? (
+                            <ReviewForm eventId={id} onReviewAdded={onReviewAdded} />
+                        ) : (
+                            <div className="login-prompt">
+                                <p>Please <a href="/login" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>login</a> to write a review.</p>
+                            </div>
+                        )}
+                        <ReviewList reviews={reviews} />
                     </div>
                 </div>
 
